@@ -6,7 +6,7 @@ namespace KlingerStore.Core.Domain.DomainObjects
     {
         public static void ValidateIfEqual(object object1, object object2, string message)
         {
-            if (!object1.Equals(object2))
+            if (object1.Equals(object2))
             {
                 throw new DomainException(message);
             }
@@ -85,37 +85,37 @@ namespace KlingerStore.Core.Domain.DomainObjects
                 throw new DomainException(message);
             }
         }
-        public static void ValidateIfLessEqualMinimum(long value, long min, string message)
+        public static void ValidateIfLessThan(long value, long min, string message)
         {
-            if (value <= min)
+            if (value < min)
             {
                 throw new DomainException(message);
             }
         }
-        public static void ValidateIfLessEqualMinimum(double value, double min, string message)
+        public static void ValidateIfLessThan(double value, double min, string message)
         {
-            if (value <= min)
+            if (value < min)
             {
                 throw new DomainException(message);
             }
         }
-        public static void ValidateIfLessEqualMinimum(float value, float min, string message)
+        public static void ValidateIfLessThan(float value, float min, string message)
         {
-            if (value <= min)
+            if (value < min)
             {
                 throw new DomainException(message);
             }
         }
-        public static void ValidateIfLessEqualMinimum(int value, int min, string message)
+        public static void ValidateIfLessThan(int value, int min, string message)
         {
-            if (value <= min)
+            if (value < min)
             {
                 throw new DomainException(message);
             }
         }
-        public static void ValidateIfLessEqualMinimum(decimal value, decimal min, string message)
+        public static void ValidateIfLessThan(decimal value, decimal min, string message)
         {
-            if (value <= min)
+            if (value < min)
             {
                 throw new DomainException(message);
             }
