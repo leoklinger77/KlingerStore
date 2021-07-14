@@ -48,26 +48,22 @@ namespace KlingeStore.Catalog.Data.Repository
 
         public async Task Insert(Product product)
         {
-            await _context.Product.AddAsync(product);
-            await UnitOfWork.Commit();
+            await _context.Product.AddAsync(product);            
         }
 
         public async Task Insert(Category category)
         {
-            await _context.Category.AddAsync(category);
-            await UnitOfWork.Commit();
+            await _context.Category.AddAsync(category);            
         }
 
         public async Task Update(Product product)
         {
-            _context.Product.Update(product);
-            await UnitOfWork.Commit();
+            _context.Product.Update(product);            
         }
 
         public async Task Update(Category category)
         {
-            _context.Category.Update(category);
-            await UnitOfWork.Commit();
+            _context.Category.Update(category);            
         }
     }
 }
