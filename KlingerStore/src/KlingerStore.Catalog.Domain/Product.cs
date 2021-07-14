@@ -16,47 +16,52 @@ namespace KlingerStore.Catalog.Domain
         public string Image { get; private set; }
         public int QuantityStock { get; private set; }
 
-        public Product(string name, string description, bool active, decimal value, Guid categoryId, DateTime insertDate, string image)
+        public Product(Guid categoryId, string name, string description, bool active, decimal value, DateTime insertDate, string image)
         {
+            CategoryId = categoryId;
             Name = name;
             Description = description;
             Active = active;
             Value = value;
             InsertDate = insertDate;
-            Image = image;
-            CategoryId = categoryId;
-        }
+            Image = image;            
 
+            Validite();
+        }
         public void Activate() => Active = true;
         public void Disable() => Active = false;
         public void ChangeCategory(Category category)
-        {
+        {            
             CategoryId = category.Id;
+            Validation.ValidateIfdifferent(CategoryId, Guid.Empty, "O Campo CategoryId do produto não pode estar vazio");
             Category = category;
         }
         public void ChageDescription(string description)
         {
+            Validation.ValidateIsNullOrEmpty(Description, "O Campo Nome do produto não pode estar vazio");
             Description = description;
         }
         public void DebitStock(int quantity)
         {
             if (quantity < 0) quantity *= -1;
+            if (!HasStock(quantity)) throw new DomainException("Estoque insuficiente");
             QuantityStock -= quantity;
         }
         public void ReplenishStock(int quantity)
-        {            
+        {
             QuantityStock += quantity;
         }
         public bool HasStock(int quantity)
         {
             return QuantityStock >= quantity;
         }
-
         public void Validite()
         {
-
+            Validation.ValidateIsNullOrEmpty(Name, "O Campo Nome do produto não pode estar vazio");
+            Validation.ValidateIsNullOrEmpty(Description, "O Campo Nome do produto não pode estar vazio");
+            Validation.ValidateIfdifferent(CategoryId, Guid.Empty, "O Campo CategoryId do produto não pode estar vazio");
+            Validation.ValidateIfLessEqualMinimum(Value, 0, "O Campo Valor do produto não pode ser menor igual a 0");
+            Validation.ValidateIsNullOrEmpty(Image, "O Campo Imagem do produto não pode estar vazio");
         }
-
-
     }
 }
