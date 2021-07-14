@@ -1,6 +1,6 @@
 ﻿using KlingerStore.Core.Domain.DomainObjects;
 
-namespace KlingerStore.Catalog.Domain
+namespace KlingerStore.Catalog.Domain.Class
 {
     public class Dimensions
     {

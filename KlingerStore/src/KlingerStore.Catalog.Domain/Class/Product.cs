@@ -1,7 +1,7 @@
 ﻿using KlingerStore.Core.Domain.DomainObjects;
 using System;
 
-namespace KlingerStore.Catalog.Domain
+namespace KlingerStore.Catalog.Domain.Class
 {
     public class Product : Entity, IAggregateRoot
     {
@@ -15,6 +15,7 @@ namespace KlingerStore.Catalog.Domain
         public DateTime InsertDate { get; private set; }
         public string Image { get; private set; }
         public int QuantityStock { get; private set; }
+        protected Product() { }
 
         public Product(Guid categoryId, string name, string description, bool active, decimal value, DateTime insertDate, string image, Dimensions dimensions)
         {
