@@ -1,4 +1,4 @@
-﻿using KlingerStore.Core.Domain.DomainObjects;
+﻿using KlingerStore.Core.Domain.Interfaces;
 using System;
 
 namespace KlingerStore.Core.Domain.Data.Interfaces
