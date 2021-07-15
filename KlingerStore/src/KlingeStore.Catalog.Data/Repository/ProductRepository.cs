@@ -1,14 +1,14 @@
 ﻿using KlingerStore.Catalog.Domain.Class;
 using KlingerStore.Catalog.Domain.Interfaces;
 using KlingerStore.Core.Domain.Data.Interfaces;
-using KlingeStore.Catalog.Data.Context;
+using KlingerStore.Catalog.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KlingeStore.Catalog.Data.Repository
+namespace KlingerStore.Catalog.Data.Repository
 {
     public class ProductRepository : IProductRepository
     {

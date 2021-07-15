@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace KlingeStore.Catalog.Data.Mappings
+namespace KlingerStore.Catalog.Data.Mappings
 {
     public class ProductMapping : IEntityTypeConfiguration<Product>
     {

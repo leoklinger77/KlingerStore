@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KlingeStore.Catalog.Data.Context
+namespace KlingerStore.Catalog.Data.Context
 {
     public class CatalogContext : DbContext, IUnitOfWork
     {

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KlingerStore.Catalog.Domain\KlingerStore.Catalog.Domain.csproj" />
+    <ProjectReference Include="..\KlingeStore.Catalog.Data\KlingerStore.Catalog.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="automapper" Version="10.1.1" />
+  </ItemGroup>
+
+</Project>
