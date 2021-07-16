@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KlingerStore.WebApp.Mvc.Configuration
 {
@@ -11,7 +7,7 @@ namespace KlingerStore.WebApp.Mvc.Configuration
     {
         public static IServiceCollection MvcResolve(this IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
             return services;
         }

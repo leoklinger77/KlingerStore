@@ -12,7 +12,7 @@ namespace KlingerStore.Catalog.Application.AutoMapper
                 .ConstructUsing(c => new Category(c.Name, c.Code));
 
             CreateMap<ProductViewModel, Product>()
-                .ConstructUsing(p => new Product(p.CategoriaId, p.Name, p.Descripton, p.Active, p.Value, p.InsertDate, p.Image,
+                .ConstructUsing(p => new Product(p.CategoriaId, p.Name, p.Description, p.Active, p.Value, p.InsertDate, p.Image,
                                      new Dimensions(p.Height, p.Width, p.Depth)));
         }
     }

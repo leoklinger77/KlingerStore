@@ -17,9 +17,7 @@ namespace KlingerStore.Catalog.Domain.Events
 
         public async Task Handle(ProductUnderStockEvent notification, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.FindById(notification.AggregateId);
-
-                        
+            var product = await _productRepository.FindById(notification.AggregateId);                        
         }
     }
 }

@@ -18,7 +18,7 @@ namespace KlingerStore.Catalog.Application.ViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [Display(Name = "Descrição")]
-        public string Descripton { get; set; }
+        public string Description { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [Display(Name = "Ativo")]

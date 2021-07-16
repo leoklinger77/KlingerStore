@@ -23,7 +23,7 @@ namespace KlingerStore.Catalog.Application.Services
             _stockService = stockService;
         }
 
-        public async Task<ProductViewModel> FundById(Guid id)
+        public async Task<ProductViewModel> FindById(Guid id)
         {
             return _mapper.Map<ProductViewModel>(await _productRepository.FindById(id));
         }

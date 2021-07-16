@@ -8,7 +8,7 @@ namespace KlingerStore.Catalog.Application.Services
     public interface IProductAppService : IDisposable
     {
         Task<IEnumerable<ProductViewModel>> FindByCateory(int code);
-        Task<ProductViewModel> FundById(Guid id);
+        Task<ProductViewModel> FindById(Guid id);
         Task<IEnumerable<ProductViewModel>> FindAllsProduct();
         Task<IEnumerable<CategoryViewModel>> FIndAllsCategory();
 

@@ -24,6 +24,12 @@ namespace KlingerStore.Catalog.Domain.Service
 
             product.DebitStock(quantity);
             await _productRepository.Update(product);
+
+            if (product.QuantityStock < 10)
+            {
+                await _bus.PublishEvent(new ProductUnderStockEvent(product.Id, product.QuantityStock));
+            }
+            
             return await _productRepository.UnitOfWork.Commit();
         }
         public async Task<bool> ReplenishStock(Guid productId, int quantity)
@@ -32,11 +38,7 @@ namespace KlingerStore.Catalog.Domain.Service
             if (product is null) return false;
 
             product.ReplenishStock(quantity);
-            await _productRepository.Update(product);
-            if (product.QuantityStock < 10)
-            {
-                await _bus.PublishEvent(new ProductUnderStockEvent(product.Id, product.QuantityStock));
-            }
+            await _productRepository.Update(product);            
             return await _productRepository.UnitOfWork.Commit();
         }
         public void Dispose()
