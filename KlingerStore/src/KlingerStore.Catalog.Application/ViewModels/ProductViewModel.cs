@@ -10,7 +10,7 @@ namespace KlingerStore.Catalog.Application.ViewModels
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        public Guid CategoriaId { get; set; }
+        public Guid CategoryId { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [Display(Name = "Nome")]

@@ -50,7 +50,7 @@ namespace KlingerStore.WebApp.Mvc.Controllers.Administration
             var produt = await _productAppService.FindById(id);
             viewModel.QuantityStock = produt.QuantityStock;
 
-            ModelState.Remove("QuantityEstoque");
+            ModelState.Remove("QuantityStock");
             if(!ModelState.IsValid) return View(await PopularCategories(await _productAppService.FindById(id)));
 
             await _productAppService.UpdateProduct(viewModel);

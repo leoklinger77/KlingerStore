@@ -68,10 +68,9 @@
         <a asp-controller="AdminProduct" asp-action="NewProduct" class="btn btn-success right">+ Adicionar Novo</a>
     </div>
     <hr />
-    <div class="row">
-        <!-- BEGIN PRODUCTS -->
+    <div class="row">        
         @{
-            foreach (var produto in Model.OrderBy(p => p.CategoriaId))
+            foreach (var produto in Model.OrderBy(p => p.CategoryId))
             {
                 <div class="col-md-3 col-sm-6">
                     <span class="thumbnail">
@@ -89,8 +88,6 @@
                 </div>
             }
         }
-
-        <!-- END PRODUCTS -->
     </div>
 </div>
 

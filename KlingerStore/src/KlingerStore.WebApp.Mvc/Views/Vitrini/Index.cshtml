@@ -64,10 +64,9 @@
 
     <h1>Vitrine de Produtos</h1>
     <br />
-    <div class="row">
-        <!-- BEGIN PRODUCTS -->
+    <div class="row">        
         @{
-            foreach (var produto in Model.OrderBy(p => p.CategoriaId))
+            foreach (var produto in Model.OrderBy(p => p.CategoryId))
             {
                 <div class="col-md-3 col-sm-6">
                     <span class="thumbnail">
@@ -77,16 +76,14 @@
                         <p>@produto.Description</p>
                         <hr class="line">
                         <div class="row">
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-8 col-sm-6">
                                 <p class="price">@produto.Value.ToString("C")</p>
                             </div>
                         </div>
                     </span>
                 </div>
             }
-        }
-
-        <!-- END PRODUCTS -->
+        }        
     </div>
 </div>
 
