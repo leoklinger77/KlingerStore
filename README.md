@@ -1,6 +1,6 @@
 # KlingerStore
 
-Projeto desenvolvido academicamente. Implementar os conceitos de um Marketplace onde utiliza uma extrutra de MicroServiço utilizando os conceitos de DDD e CQRS
+Projeto desenvolvido academicamente. Implementar os conceitos de um Marketplace onde utiliza uma estrutra de MicroServiço utilizando os conceitos de DDD e CQRS
 
 Esta aplicação aplica técnicas Código Limpo para escrita de aplicações corporativas complexas e com foco no negócio. Apesar da complexidade de regras e de conceitos, a aplicação foi desenvolvida para ser escalonavel, com código desacoplado, tornando simples de entender e fácil de dar manutenções e de Testar.
 
