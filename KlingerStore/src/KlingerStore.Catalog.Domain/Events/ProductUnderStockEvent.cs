@@ -1,9 +1,5 @@
-﻿using KlingerStore.Core.Domain.Message;
+﻿using KlingerStore.Core.Domain.DomainObjects;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KlingerStore.Catalog.Domain.Events
 {

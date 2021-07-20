@@ -1,10 +1,5 @@
-﻿using KlingerStore.Core.Domain.Interfaces;
-using KlingerStore.Core.Domain.Message;
+﻿using KlingerStore.Core.Domain.Message;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KlingerStore.Core.Domain.Bus
@@ -21,6 +16,11 @@ namespace KlingerStore.Core.Domain.Bus
         public async Task PublishEvent<T>(T Tevent) where T : Event
         {
             await _mediator.Publish(Tevent);
+        }
+
+        public async Task<bool> SendCommand<T>(T command) where T : Command
+        {
+            return await _mediator.Send(command);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿namespace KlingerStore.Sales.Domain.Class.Enumeration
 {
-    public interface VoucherDiscountType
+    public enum VoucherDiscountType
     {
+        Porcentagem = 0,
+        Valor = 1
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KlingerStore.WebApp.Mvc.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
         private readonly ILogger<HomeController> _logger;
 

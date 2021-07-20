@@ -155,19 +155,27 @@
             <p>Apenas @Model.QuantityStock em estoque!</p>
             <p>@Model.Description</p>
 
-            <div class="section" style="padding-bottom:20px;">
-                <h6 class="title-attr"><small>QUANTIDADE</small></h6>
-                <div>
-                    <div class="btn-minus"><span style="font-size: 15px">-</span></div>
-                    <input style="font-size: 15px" type="text" value="1" />
-                    <div class="btn-plus"><span style="font-size: 15px">+</span></div>
-                </div>
-            </div>
+            <form asp-action="AddItem" asp-controller="Cart" method="post">
 
-            <!-- Botones de compra -->
-            <div class="section" style="padding-bottom:20px;">
-                <button class="btn btn-success"><span style="margin-right:20px" aria-hidden="true"></span> Comprar agora!</button>
-            </div>
+                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+
+                <div class="section" style="padding-bottom:20px;">
+                    <h6 class="title-attr"><small>QUANTIDADE</small></h6>
+                    <div>
+                        <div class="btn-minus"><span style="font-size: 15px">-</span></div>
+                        <input id="quantity" name="quantity" style="font-size: 15px" type="text" value="1" />
+                        <div class="btn-plus"><span style="font-size: 15px">+</span></div>
+                    </div>
+                </div>
+
+                <!-- Botones de compra -->
+                <div class="section" style="padding-bottom:20px;">
+                    <button class="btn btn-success"><span style="margin-right:20px" aria-hidden="true"></span> Comprar agora!</button>
+                </div>
+
+            </form>
+
+           
         </div>
     </div>
 </div>

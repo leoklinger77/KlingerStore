@@ -1,22 +1,23 @@
-﻿using KlingerStore.Catalog.Domain.Class;
-using KlingerStore.Core.Domain.Data.Interfaces;
+﻿using KlingerStore.Core.Domain.Data.Interfaces;
+using KlingerStore.Sales.Domain.Class;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KlingerStore.Catalog.Data.Context
+namespace KlingerStore.Sales.Data.Context
 {
-    public class CatalogContext : DbContext, IUnitOfWork
+    public class SalesContext : DbContext, IUnitOfWork
     {
-        public CatalogContext(DbContextOptions<CatalogContext> options) : base(options) { }
+        public SalesContext(DbContextOptions<SalesContext> options) : base(options) { }
 
-        public DbSet<Product> Product { get; set; }
-        public DbSet<Category> Category { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<OrderItem> OrderItem { get; set; }
+        public DbSet<Voucher> Voucher { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(SalesContext).Assembly);
 
             foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(255)");
@@ -24,7 +25,10 @@ namespace KlingerStore.Catalog.Data.Context
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(SalesContext).Assembly);
+
+            modelBuilder.HasSequence<int>("MinhaSequencia").StartsAt(1000).IncrementsBy(1);
+            base.OnModelCreating(modelBuilder);
         }
         public async Task<bool> Commit()
         {
@@ -40,6 +44,7 @@ namespace KlingerStore.Catalog.Data.Context
                     entry.Property("InsertDate").IsModified = false;
                 }
             }
+
             return await base.SaveChangesAsync() > 0;
         }
     }

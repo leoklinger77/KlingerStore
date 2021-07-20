@@ -1,4 +1,5 @@
 ﻿using KlingerStore.Catalog.Data.Context;
+using KlingerStore.Sales.Data.Context;
 using KlingerStore.WebApp.Mvc.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +18,11 @@ namespace KlingerStore.WebApp.Mvc.Configuration
             //Catalog Context
             services.AddDbContext<CatalogContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-            
+
+            //Sales Context
+            services.AddDbContext<SalesContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDatabaseDeveloperPageExceptionFilter();            
 
             return services;

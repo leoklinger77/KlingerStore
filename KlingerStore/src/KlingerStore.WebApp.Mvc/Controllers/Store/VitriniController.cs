@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KlingerStore.WebApp.Mvc.Controllers
 {
-    public class VitriniController : Controller
+    public class VitriniController : ControllerBase
     {
         private readonly IProductAppService _productAppService;
 

@@ -44,5 +44,10 @@ namespace KlingerStore.Core.Domain.DomainObjects
         {
             return $"{GetType().Name} [Id={Id}]";
         }
+
+        public virtual bool IsValid()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

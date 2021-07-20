@@ -4,4 +4,14 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Events\" />
+    <Folder Include="Querys\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KlingerStore.Core.Domain\KlingerStore.Core.Domain.csproj" />
+    <ProjectReference Include="..\KlingerStore.Sales.Domain\KlingerStore.Sales.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

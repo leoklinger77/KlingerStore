@@ -1,6 +1,5 @@
 ﻿using KlingerStore.Catalog.Domain.Interfaces;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 

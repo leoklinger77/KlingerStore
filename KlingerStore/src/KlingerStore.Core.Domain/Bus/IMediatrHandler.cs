@@ -6,5 +6,6 @@ namespace KlingerStore.Core.Domain.Bus
     public interface IMediatrHandler
     {
         Task PublishEvent<T>(T Tevent) where T : Event;
+        Task<bool> SendCommand<T>(T command) where T : Command;
     }
 }
