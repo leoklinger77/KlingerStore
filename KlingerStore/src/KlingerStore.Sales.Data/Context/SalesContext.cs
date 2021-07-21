@@ -1,4 +1,6 @@
-﻿using KlingerStore.Core.Domain.Data.Interfaces;
+﻿using KlingerStore.Core.Domain.Communication.Mediatr;
+using KlingerStore.Core.Domain.Data.Interfaces;
+using KlingerStore.Core.Domain.Message;
 using KlingerStore.Sales.Domain.Class;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +11,11 @@ namespace KlingerStore.Sales.Data.Context
 {
     public class SalesContext : DbContext, IUnitOfWork
     {
-        public SalesContext(DbContextOptions<SalesContext> options) : base(options) { }
+        private readonly IMediatrHandler _mediatrHandler;
+        public SalesContext(DbContextOptions<SalesContext> options, IMediatrHandler mediatrHandler) : base(options)
+        {
+            _mediatrHandler = mediatrHandler;
+        }
 
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderItem> OrderItem { get; set; }
@@ -24,6 +30,8 @@ namespace KlingerStore.Sales.Data.Context
 
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+
+            modelBuilder.Ignore<Event>();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SalesContext).Assembly);
 
@@ -44,6 +52,8 @@ namespace KlingerStore.Sales.Data.Context
                     entry.Property("InsertDate").IsModified = false;
                 }
             }
+
+            await _mediatrHandler.SendEvent(this);
 
             return await base.SaveChangesAsync() > 0;
         }

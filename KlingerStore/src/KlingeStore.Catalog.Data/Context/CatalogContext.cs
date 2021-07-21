@@ -1,5 +1,6 @@
 ﻿using KlingerStore.Catalog.Domain.Class;
 using KlingerStore.Core.Domain.Data.Interfaces;
+using KlingerStore.Core.Domain.Message;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace KlingerStore.Catalog.Data.Context
 
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+
+            modelBuilder.Ignore<Event>();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogContext).Assembly);
         }

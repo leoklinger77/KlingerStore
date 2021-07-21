@@ -9,6 +9,7 @@ using KlingerStore.Catalog.Domain.Service;
 using KlingerStore.Core.Domain.Communication.Mediatr;
 using KlingerStore.Core.Domain.Message.CommonMessages.Notification;
 using KlingerStore.Sales.Application.Commands;
+using KlingerStore.Sales.Application.Events;
 using KlingerStore.Sales.Data.Context;
 using KlingerStore.Sales.Data.Repository;
 using KlingerStore.Sales.Domain.Interfaces;
@@ -38,12 +39,16 @@ namespace KlingerStore.WebApp.Mvc.Configuration
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<CatalogContext>();
 
-            services.AddScoped<INotificationHandler<ProductUnderStockEvent>, ProductEventHandler>();
+            services.AddScoped<INotificationHandler<Catalog.Domain.Events.OrderDraftOrderInitEvent>, ProductEventHandler>();
 
             //Orders            
             services.AddScoped<IRequestHandler<AddOrderItemCommand, bool>, OrderCommandHandler>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<SalesContext>();
+
+            services.AddScoped<INotificationHandler<Sales.Application.Events.OrderDraftOrderInitEvent>, OrderEventHandler>();
+            services.AddScoped<INotificationHandler<OrderItemAddEvent>, OrderEventHandler>();
+            services.AddScoped<INotificationHandler<OrderItemUpdateEvent>, OrderEventHandler>();
 
             return services;
         }

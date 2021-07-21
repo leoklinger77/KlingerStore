@@ -42,7 +42,7 @@ namespace KlingerStore.WebApp.Mvc.Controllers
                 return RedirectToAction("ProductDetails", "Vitrini", new { id });
             }
 
-            var command = new AddOrderItemCommand(ClientId, product.Id, product.Name, product.QuantityStock, product.Value);
+            var command = new AddOrderItemCommand(ClientId, product.Id, product.Name, quantity, product.Value);
 
             await _mediatrHandler.SendCommand(command);
             

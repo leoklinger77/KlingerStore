@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KlingerStore.Catalog.Domain.Events
 {
-    public class ProductEventHandler : INotificationHandler<ProductUnderStockEvent>
+    public class ProductEventHandler : INotificationHandler<OrderDraftOrderInitEvent>
     {
         private readonly IProductRepository _productRepository;
 
@@ -14,7 +14,7 @@ namespace KlingerStore.Catalog.Domain.Events
             _productRepository = productRepository;
         }
 
-        public async Task Handle(ProductUnderStockEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(OrderDraftOrderInitEvent notification, CancellationToken cancellationToken)
         {
             var product = await _productRepository.FindById(notification.AggregateId);                        
         }

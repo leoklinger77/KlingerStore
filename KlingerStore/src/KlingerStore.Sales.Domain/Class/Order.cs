@@ -79,7 +79,7 @@ namespace KlingerStore.Sales.Domain.Class
 
         public bool OrderItemExists(OrderItem orderItem)
         {
-            return _orderItems.Any(x => x.ProductId == orderItem.Id);
+            return _orderItems.Any(x => x.ProductId == orderItem.ProductId);
         }
 
         public void AddItem(OrderItem item)

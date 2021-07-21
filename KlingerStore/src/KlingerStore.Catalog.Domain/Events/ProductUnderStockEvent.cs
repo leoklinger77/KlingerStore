@@ -3,10 +3,10 @@ using System;
 
 namespace KlingerStore.Catalog.Domain.Events
 {
-    public class ProductUnderStockEvent : DomainEvent
+    public class OrderDraftOrderInitEvent : DomainEvent
     {
         public int QuantityRemaining { get; set; }
-        public ProductUnderStockEvent(Guid aggregateId, int quantityRemaining) : base(aggregateId)
+        public OrderDraftOrderInitEvent(Guid aggregateId, int quantityRemaining) : base(aggregateId)
         {
             QuantityRemaining = quantityRemaining;
         }

@@ -27,7 +27,7 @@ namespace KlingerStore.Catalog.Domain.Service
 
             if (product.QuantityStock < 10)
             {
-                await _bus.PublishEvent(new ProductUnderStockEvent(product.Id, product.QuantityStock));
+                await _bus.PublishEvent(new OrderDraftOrderInitEvent(product.Id, product.QuantityStock));
             }
             
             return await _productRepository.UnitOfWork.Commit();

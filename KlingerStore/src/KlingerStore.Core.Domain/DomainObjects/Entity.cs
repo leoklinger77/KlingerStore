@@ -1,4 +1,6 @@
-﻿using System;
+﻿using KlingerStore.Core.Domain.Message;
+using System;
+using System.Collections.Generic;
 
 namespace KlingerStore.Core.Domain.DomainObjects
 {
@@ -6,11 +8,26 @@ namespace KlingerStore.Core.Domain.DomainObjects
     {
         public Guid Id { get; set; }
 
+        private List<Event> _notifier;
+        public IReadOnlyCollection<Event> Notifier => _notifier?.AsReadOnly();
+
         protected Entity()
         {
             Id = Guid.NewGuid();
+            _notifier = new List<Event>();
         }
-
+        public void AddEvent(Event _event)
+        {
+            _notifier.Add(_event);
+        }
+        public void RemoveEvent(Event _event)
+        {
+            _notifier.Remove(_event);
+        }
+        public void DisposeEvent()
+        {
+            _notifier?.Clear();
+        }
         public override bool Equals(object obj)
         {
             var compareTo = obj as Entity;
