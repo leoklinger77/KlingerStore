@@ -6,7 +6,8 @@ using KlingerStore.Catalog.Domain.Events;
 using KlingerStore.Catalog.Domain.Interfaces;
 using KlingerStore.Catalog.Domain.Interfaces.Services;
 using KlingerStore.Catalog.Domain.Service;
-using KlingerStore.Core.Domain.Bus;
+using KlingerStore.Core.Domain.Communication.Mediatr;
+using KlingerStore.Core.Domain.Message.CommonMessages.Notification;
 using KlingerStore.Sales.Application.Commands;
 using KlingerStore.Sales.Data.Context;
 using KlingerStore.Sales.Data.Repository;
@@ -20,15 +21,16 @@ namespace KlingerStore.WebApp.Mvc.Configuration
     {
         public static IServiceCollection DependencyResolve(this IServiceCollection services)
         {
-            //Domain Bus
+            //Mediator
+            
             services.AddScoped<IMediatrHandler, MediatrHandler>();
 
             //AutoMapper
-            services.AddAutoMapper(typeof(DomainToViewModelMappingProfile), typeof(ViewModelToDomainMappingProfile));
+            services.AddAutoMapper(typeof(DomainToViewModelMappingProfile), typeof(ViewModelToDomainMappingProfile));            
 
-            //Mediator
-            services.AddMediatR(typeof(Startup));
-
+            //Notification
+            services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
+            
 
             //Catalog
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -36,12 +38,11 @@ namespace KlingerStore.WebApp.Mvc.Configuration
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<CatalogContext>();
 
-            //
             services.AddScoped<INotificationHandler<ProductUnderStockEvent>, ProductEventHandler>();
 
-            //Orders
-            services.AddScoped<IOrderRepository, OrderRepository>();
+            //Orders            
             services.AddScoped<IRequestHandler<AddOrderItemCommand, bool>, OrderCommandHandler>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<SalesContext>();
 
             return services;

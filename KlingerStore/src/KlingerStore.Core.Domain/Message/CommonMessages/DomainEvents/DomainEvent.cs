@@ -1,7 +1,6 @@
-﻿using KlingerStore.Core.Domain.Message;
-using System;
+﻿using System;
 
-namespace KlingerStore.Core.Domain.DomainObjects
+namespace KlingerStore.Core.Domain.Message.CommonMessages.DomainEvents
 {
     public class DomainEvent : Event
     {

@@ -1,4 +1,5 @@
 using KlingerStore.WebApp.Mvc.Configuration;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,7 @@ namespace KlingerStore.WebApp.Mvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.MvcResolve();
+            services.AddMediatR(typeof(Startup));
             services.ContextResolve(Configuration);
             services.IdentityResolve();
             services.DependencyResolve();

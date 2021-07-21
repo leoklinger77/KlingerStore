@@ -1,4 +1,7 @@
-﻿using KlingerStore.WebApp.Mvc.Models;
+﻿using KlingerStore.Core.Domain.Communication.Mediatr;
+using KlingerStore.Core.Domain.Message.CommonMessages.Notification;
+using KlingerStore.WebApp.Mvc.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,7 +16,8 @@ namespace KlingerStore.WebApp.Mvc.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IMediatrHandler mediatrHandler, INotificationHandler<DomainNotification> notification,
+                    ILogger<HomeController> logger) : base(notification, mediatrHandler)
         {
             _logger = logger;
         }

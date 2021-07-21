@@ -1,7 +1,7 @@
 ﻿using KlingerStore.Catalog.Domain.Events;
 using KlingerStore.Catalog.Domain.Interfaces;
 using KlingerStore.Catalog.Domain.Interfaces.Services;
-using KlingerStore.Core.Domain.Bus;
+using KlingerStore.Core.Domain.Communication.Mediatr;
 using System;
 using System.Threading.Tasks;
 

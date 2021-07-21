@@ -51,10 +51,10 @@ namespace KlingerStore.Sales.Application.Commands
             RuleFor(x => x.Quantity)
                 .GreaterThan(0)
                 .WithMessage("A quantidade minimo de um item é 1");
-            
-            //RuleFor(x => x.Quantity)
-            //    .GreaterThan(15)
-            //    .WithMessage("A quantidade maxima de um item é 15");
+
+            RuleFor(x => x.Quantity)
+                .LessThan(15)
+                .WithMessage("A quantidade maxima de um item é 15");
 
             RuleFor(x => x.UnitValue)
                 .GreaterThan(0)

@@ -1,4 +1,4 @@
-﻿using KlingerStore.Core.Domain.DomainObjects;
+﻿using KlingerStore.Core.Domain.Message.CommonMessages.DomainEvents;
 using System;
 
 namespace KlingerStore.Catalog.Domain.Events

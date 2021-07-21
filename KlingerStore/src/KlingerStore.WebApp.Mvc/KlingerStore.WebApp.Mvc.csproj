@@ -27,6 +27,7 @@
     <ProjectReference Include="..\KlingerStore.Core.Domain\KlingerStore.Core.Domain.csproj" />
     <ProjectReference Include="..\KlingerStore.Sales.Application\KlingerStore.Sales.Application.csproj" />
     <ProjectReference Include="..\KlingerStore.Sales.Data\KlingerStore.Sales.Data.csproj" />
+    <ProjectReference Include="..\KlingerStore.Sales.Domain\KlingerStore.Sales.Domain.csproj" />
     <ProjectReference Include="..\KlingeStore.Catalog.Data\KlingerStore.Catalog.Data.csproj" />
   </ItemGroup>
 
