@@ -2,11 +2,10 @@
 using KlingerStore.Core.Domain.Communication.Mediatr;
 using KlingerStore.Core.Domain.Message.CommonMessages.Notification;
 using KlingerStore.Sales.Application.Commands;
+using KlingerStore.Sales.Application.Querys;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace KlingerStore.WebApp.Mvc.Controllers
@@ -15,18 +14,20 @@ namespace KlingerStore.WebApp.Mvc.Controllers
     {
         private readonly IProductAppService _productAppService;
         private readonly IMediatrHandler _mediatrHandler;
+        private readonly IOrderQuerys _orderQuerys;
 
         public CartController(IMediatrHandler mediatrHandler, INotificationHandler<DomainNotification> notification,
-                            IProductAppService productAppService)
+                            IProductAppService productAppService, IOrderQuerys orderQuerys)
                             : base(notification, mediatrHandler)
         {
             _productAppService = productAppService;
             _mediatrHandler = mediatrHandler;
+            _orderQuerys = orderQuerys;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _orderQuerys.FindCartClient(ClientId));
         }
 
         [HttpPost]
@@ -48,12 +49,63 @@ namespace KlingerStore.WebApp.Mvc.Controllers
             
             if (OperationValidit())
             {
-                return RedirectToAction("ProductDetails", "Vitrini", new { id });
+                return RedirectToAction("Index");
             }
 
             TempData["Erros"] = FindMessageError();
             return RedirectToAction("ProductDetails", "Vitrini", new { id });
         }
+        //[HttpPost]
+        //[Route("remover-item")]
+        //public async Task<IActionResult> RemoverItem(Guid id)
+        //{
+        //    var product = await _productAppService.FindById(id);
+        //    if (product is null) return BadRequest();
 
+        //    var command = new RemoveOrderItemCommand(ClientId, id);
+
+        //    await _mediatrHandler.SendCommand(command);
+
+        //    if (OperationValidit())
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    return View("Index", await _orderQuerys.FindCartClient(ClientId));
+        //}
+
+        //[HttpPost]
+        //[Route("atualizar-item")]
+        //public async Task<IActionResult> UpdateItem(Guid id, int quantity)
+        //{
+        //    var order = await _productAppService.FindById(id);
+        //    if (order is null) return BadRequest();
+
+        //    var command = new UpdateOrderItemCommand(ClientId, id, quantity);
+        //    await _mediatrHandler.SendCommand(command);
+
+        //    if (OperationValidit())
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    return View("Index", await _orderQuerys.FindCartClient(ClientId));
+        //}
+        //[HttpPost]
+        //[Route("aplicar-voucher")]
+        //public async Task<IActionResult> ApplyVoucher(string voucherCode)
+        //{
+        //    var command = new ApplyOrderVoucherCommand(ClientId, voucherCode);
+
+        //    await _mediatrHandler.SendCommand(command);
+
+        //    if (OperationValidit())
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    return View("Index", await _orderQuerys.FindCartClient(ClientId));
+
+        //}
     }
 }

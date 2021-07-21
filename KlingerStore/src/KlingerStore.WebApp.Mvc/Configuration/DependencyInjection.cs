@@ -10,6 +10,7 @@ using KlingerStore.Core.Domain.Communication.Mediatr;
 using KlingerStore.Core.Domain.Message.CommonMessages.Notification;
 using KlingerStore.Sales.Application.Commands;
 using KlingerStore.Sales.Application.Events;
+using KlingerStore.Sales.Application.Querys;
 using KlingerStore.Sales.Data.Context;
 using KlingerStore.Sales.Data.Repository;
 using KlingerStore.Sales.Domain.Interfaces;
@@ -49,6 +50,8 @@ namespace KlingerStore.WebApp.Mvc.Configuration
             services.AddScoped<INotificationHandler<Sales.Application.Events.OrderDraftOrderInitEvent>, OrderEventHandler>();
             services.AddScoped<INotificationHandler<OrderItemAddEvent>, OrderEventHandler>();
             services.AddScoped<INotificationHandler<OrderItemUpdateEvent>, OrderEventHandler>();
+
+            services.AddScoped<IOrderQuerys, OrderQuerys>();
 
             return services;
         }

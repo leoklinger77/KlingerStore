@@ -53,9 +53,10 @@ namespace KlingerStore.Sales.Data.Context
                 }
             }
 
-            await _mediatrHandler.SendEvent(this);
-
-            return await base.SaveChangesAsync() > 0;
+            var success = await base.SaveChangesAsync() > 0;
+            if(success) await _mediatrHandler.SendEvent(this);
+            
+            return success;
         }
     }
 }
