@@ -1,6 +1,7 @@
 ﻿using KlingerStore.Core.Domain.Message.CommonMessages.Notification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace KlingerStore.WebApp.Mvc.Extensions
@@ -16,8 +17,11 @@ namespace KlingerStore.WebApp.Mvc.Extensions
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var notification = await Task.FromResult(_notification.FindNotification());
-            notification.ForEach(x => ViewBag.ModelState.AddModelError(string.Empty, x.Value));
+            var notificacoes = await Task.FromResult(_notification.FindNotification());
+            notificacoes.ForEach(c => ViewData.ModelState.AddModelError(string.Empty, c.Value));
+
+            return View();
+
 
             return View();
         }

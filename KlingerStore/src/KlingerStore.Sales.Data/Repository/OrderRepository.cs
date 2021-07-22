@@ -38,7 +38,7 @@ namespace KlingerStore.Sales.Data.Repository
 
         public async Task<OrderItem> FindOrderItemPerOrder(Guid orderId, Guid productId)
         {
-            return await _context.OrderItem.FirstOrDefaultAsync(p => p.ProductId == productId && p.OrderId == orderId);
+            return await _context.OrderItem.AsNoTracking().FirstOrDefaultAsync(p => p.ProductId == productId && p.OrderId == orderId);
         }
 
         public Task<Voucher> FindVoucherPerCode(string code)

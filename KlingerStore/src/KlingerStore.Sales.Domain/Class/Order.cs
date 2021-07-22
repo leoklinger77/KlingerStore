@@ -1,4 +1,5 @@
-﻿using KlingerStore.Core.Domain.DomainObjects;
+﻿using FluentValidation.Results;
+using KlingerStore.Core.Domain.DomainObjects;
 using KlingerStore.Core.Domain.Interfaces;
 using KlingerStore.Sales.Domain.Class.Enumeration;
 using System;
@@ -36,12 +37,17 @@ namespace KlingerStore.Sales.Domain.Class
             _orderItems = new List<OrderItem>();
         }
 
-        public void ApplyVoucher(Voucher voucher)
+        public ValidationResult ApplyVoucher(Voucher voucher)
         {
+            var validationResult = voucher.ValidateIfApplicable();
+            if (!validationResult.IsValid) return validationResult;
+
             Voucher = voucher;
             VoucherUsed = true;
             CalculateValueOrder();
-        }
+
+            return validationResult;
+        }               
 
         public void CalculateValueOrder()
         {
@@ -66,9 +72,9 @@ namespace KlingerStore.Sales.Domain.Class
             }
             else
             {
-                if (Voucher.Percentage.HasValue)
+                if (Voucher.DiscountValue.HasValue)
                 {
-                    discount = Voucher.Percentage.Value;
+                    discount = Voucher.DiscountValue.Value;
                     value -= discount;
                 }
             }

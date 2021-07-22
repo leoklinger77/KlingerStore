@@ -43,15 +43,19 @@ namespace KlingerStore.WebApp.Mvc.Configuration
             services.AddScoped<INotificationHandler<Catalog.Domain.Events.OrderDraftOrderInitEvent>, ProductEventHandler>();
 
             //Orders            
-            services.AddScoped<IRequestHandler<AddOrderItemCommand, bool>, OrderCommandHandler>();
+            services.AddScoped<IOrderQuerys, OrderQuerys>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<SalesContext>();
+
+            services.AddScoped<IRequestHandler<AddOrderItemCommand, bool>, OrderCommandHandler>();
+            services.AddScoped<IRequestHandler<ApplyVoucherOrderItemCommand, bool>, OrderCommandHandler>();
+            services.AddScoped<IRequestHandler<RemoverOrderItemCommand, bool>, OrderCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateOrderItemCommand, bool>, OrderCommandHandler>();
 
             services.AddScoped<INotificationHandler<Sales.Application.Events.OrderDraftOrderInitEvent>, OrderEventHandler>();
             services.AddScoped<INotificationHandler<OrderItemAddEvent>, OrderEventHandler>();
             services.AddScoped<INotificationHandler<OrderItemUpdateEvent>, OrderEventHandler>();
-
-            services.AddScoped<IOrderQuerys, OrderQuerys>();
+            
 
             return services;
         }

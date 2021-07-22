@@ -3,6 +3,7 @@ using KlingerStore.Core.Domain.Communication.Mediatr;
 using KlingerStore.Core.Domain.Message.CommonMessages.Notification;
 using KlingerStore.Sales.Application.Commands;
 using KlingerStore.Sales.Application.Querys;
+using KlingerStore.Sales.Application.Querys.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -55,57 +56,83 @@ namespace KlingerStore.WebApp.Mvc.Controllers
             TempData["Erros"] = FindMessageError();
             return RedirectToAction("ProductDetails", "Vitrini", new { id });
         }
-        //[HttpPost]
-        //[Route("remover-item")]
-        //public async Task<IActionResult> RemoverItem(Guid id)
-        //{
-        //    var product = await _productAppService.FindById(id);
-        //    if (product is null) return BadRequest();
+        [HttpPost]
+        [Route("remover-item")]
+        public async Task<IActionResult> RemoverItem(Guid id)
+        {
+            var product = await _productAppService.FindById(id);
+            if (product is null) return BadRequest();
 
-        //    var command = new RemoveOrderItemCommand(ClientId, id);
+            var command = new RemoverOrderItemCommand(ClientId, id);
 
-        //    await _mediatrHandler.SendCommand(command);
+            await _mediatrHandler.SendCommand(command);
 
-        //    if (OperationValidit())
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
+            if (OperationValidit())
+            {
+                return RedirectToAction("Index");
+            }
 
-        //    return View("Index", await _orderQuerys.FindCartClient(ClientId));
-        //}
+            return View("Index", await _orderQuerys.FindCartClient(ClientId));
+        }
 
-        //[HttpPost]
-        //[Route("atualizar-item")]
-        //public async Task<IActionResult> UpdateItem(Guid id, int quantity)
-        //{
-        //    var order = await _productAppService.FindById(id);
-        //    if (order is null) return BadRequest();
+        [HttpPost]
+        [Route("atualizar-item")]
+        public async Task<IActionResult> UpdateItem(Guid id, int quantity)
+        {
+            var order = await _productAppService.FindById(id);
+            if (order is null) return BadRequest();
 
-        //    var command = new UpdateOrderItemCommand(ClientId, id, quantity);
-        //    await _mediatrHandler.SendCommand(command);
+            var command = new UpdateOrderItemCommand(ClientId, id, quantity);
+            await _mediatrHandler.SendCommand(command);
 
-        //    if (OperationValidit())
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
+            if (OperationValidit())
+            {
+                return RedirectToAction("Index");
+            }
 
-        //    return View("Index", await _orderQuerys.FindCartClient(ClientId));
-        //}
-        //[HttpPost]
-        //[Route("aplicar-voucher")]
-        //public async Task<IActionResult> ApplyVoucher(string voucherCode)
-        //{
-        //    var command = new ApplyOrderVoucherCommand(ClientId, voucherCode);
+            return View("Index", await _orderQuerys.FindCartClient(ClientId));
+        }
+        [HttpPost]
+        [Route("aplicar-voucher")]
+        public async Task<IActionResult> ApplyVoucher(string voucherCode)
+        {
+            var command = new ApplyVoucherOrderItemCommand(ClientId, voucherCode);
 
-        //    await _mediatrHandler.SendCommand(command);
+            await _mediatrHandler.SendCommand(command);
 
-        //    if (OperationValidit())
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
+            if (OperationValidit())
+            {
+                return RedirectToAction("Index");
+            }
 
-        //    return View("Index", await _orderQuerys.FindCartClient(ClientId));
+            return View("Index", await _orderQuerys.FindCartClient(ClientId));
 
-        //}
+        }
+
+        [Route("resumo-da-compra")]
+        public async Task<IActionResult> PurchaseSummary()
+        {
+            return View(await _orderQuerys.FindCartClient(ClientId));
+        }
+
+        [HttpPost]
+        [Route("inciar-pedido")]
+        public async Task<IActionResult> StartOrder(CartViewModel cartViewModel)
+        {
+            var cart = await _orderQuerys.FindCartClient(ClientId);
+
+            var command = new StartOrderCommand(cart.OrderId, ClientId, cart.TotalValue, cart.Payment.CardName, 
+                                                cart.Payment.NumberCart, cart.Payment.ExpirationCart, cart.Payment.CvvCart);
+
+            await _mediatrHandler.SendCommand(command);
+
+            if (OperationValidit())
+            {
+                return RedirectToAction("Index", "Order");
+            }
+
+            return View("PurchaseSummary", await _orderQuerys.FindCartClient(ClientId));
+        }
+
     }
 }
