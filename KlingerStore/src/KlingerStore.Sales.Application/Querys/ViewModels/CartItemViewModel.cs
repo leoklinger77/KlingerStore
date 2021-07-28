@@ -9,5 +9,6 @@ namespace KlingerStore.Sales.Application.Querys.ViewModels
         public int Quantity { get; set; }
         public decimal ValorUnit { get; set; }
         public decimal TotalValue { get; set; }
+        public string Image { get; set; }
     }
 }

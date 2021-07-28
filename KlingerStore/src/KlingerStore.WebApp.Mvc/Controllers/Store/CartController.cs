@@ -1,34 +1,37 @@
 ﻿using KlingerStore.Catalog.Application.Services;
 using KlingerStore.Core.Domain.Communication.Mediatr;
+using KlingerStore.Core.Domain.Interfaces;
 using KlingerStore.Core.Domain.Message.CommonMessages.Notification;
 using KlingerStore.Sales.Application.Commands;
 using KlingerStore.Sales.Application.Querys;
 using KlingerStore.Sales.Application.Querys.ViewModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
 namespace KlingerStore.WebApp.Mvc.Controllers
 {
+    [Authorize]
     public class CartController : ControllerBase
     {
         private readonly IProductAppService _productAppService;
         private readonly IMediatrHandler _mediatrHandler;
-        private readonly IOrderQuerys _orderQuerys;
+        private readonly IOrderQuerys _orderQuerys;        
 
         public CartController(IMediatrHandler mediatrHandler, INotificationHandler<DomainNotification> notification,
-                            IProductAppService productAppService, IOrderQuerys orderQuerys)
-                            : base(notification, mediatrHandler)
+                            IProductAppService productAppService, IOrderQuerys orderQuerys, IUser user)
+                            : base(notification, mediatrHandler, user)
         {
             _productAppService = productAppService;
             _mediatrHandler = mediatrHandler;
-            _orderQuerys = orderQuerys;
+            _orderQuerys = orderQuerys;            
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _orderQuerys.FindCartClient(ClientId));
+            return View(await _orderQuerys.FindCartClient(await _user.ClientId()));
         }
 
         [HttpPost]
@@ -44,7 +47,7 @@ namespace KlingerStore.WebApp.Mvc.Controllers
                 return RedirectToAction("ProductDetails", "Vitrini", new { id });
             }
 
-            var command = new AddOrderItemCommand(ClientId, product.Id, product.Name, quantity, product.Value);
+            var command = new AddOrderItemCommand(await _user.ClientId(), product.Id, product.Name, quantity, product.Value, product.Image);
 
             await _mediatrHandler.SendCommand(command);
             
@@ -63,7 +66,7 @@ namespace KlingerStore.WebApp.Mvc.Controllers
             var product = await _productAppService.FindById(id);
             if (product is null) return BadRequest();
 
-            var command = new RemoverOrderItemCommand(ClientId, id);
+            var command = new RemoverOrderItemCommand(await _user.ClientId(), id);
 
             await _mediatrHandler.SendCommand(command);
 
@@ -72,7 +75,7 @@ namespace KlingerStore.WebApp.Mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View("Index", await _orderQuerys.FindCartClient(ClientId));
+            return View("Index", await _orderQuerys.FindCartClient(await _user.ClientId()));
         }
 
         [HttpPost]
@@ -82,7 +85,7 @@ namespace KlingerStore.WebApp.Mvc.Controllers
             var order = await _productAppService.FindById(id);
             if (order is null) return BadRequest();
 
-            var command = new UpdateOrderItemCommand(ClientId, id, quantity);
+            var command = new UpdateOrderItemCommand(await _user.ClientId(), id, quantity);
             await _mediatrHandler.SendCommand(command);
 
             if (OperationValidit())
@@ -90,13 +93,13 @@ namespace KlingerStore.WebApp.Mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View("Index", await _orderQuerys.FindCartClient(ClientId));
+            return View("Index", await _orderQuerys.FindCartClient(await _user.ClientId()));
         }
         [HttpPost]
         [Route("aplicar-voucher")]
         public async Task<IActionResult> ApplyVoucher(string voucherCode)
         {
-            var command = new ApplyVoucherOrderItemCommand(ClientId, voucherCode);
+            var command = new ApplyVoucherOrderItemCommand(await _user.ClientId(), voucherCode);
 
             await _mediatrHandler.SendCommand(command);
 
@@ -105,24 +108,25 @@ namespace KlingerStore.WebApp.Mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View("Index", await _orderQuerys.FindCartClient(ClientId));
+            return View("Index", await _orderQuerys.FindCartClient(await _user.ClientId()));
 
         }
 
         [Route("resumo-da-compra")]
         public async Task<IActionResult> PurchaseSummary()
         {
-            return View(await _orderQuerys.FindCartClient(ClientId));
+            return View(await _orderQuerys.FindCartClient(await _user.ClientId()));
         }
 
         [HttpPost]
         [Route("inciar-pedido")]
         public async Task<IActionResult> StartOrder(CartViewModel cartViewModel)
         {
-            var cart = await _orderQuerys.FindCartClient(ClientId);
+            if(!ModelState.IsValid) return View("PurchaseSummary", await _orderQuerys.FindCartClient(await _user.ClientId()));
+            var cart = await _orderQuerys.FindCartClient(await _user.ClientId());
 
-            var command = new StartOrderCommand(cart.OrderId, ClientId, cart.TotalValue, cart.Payment.CardName, 
-                                                cart.Payment.NumberCart, cart.Payment.ExpirationCart, cart.Payment.CvvCart);
+            var command = new StartOrderCommand(cart.OrderId, ClientId, cart.TotalValue, cartViewModel.Payment.CardName,
+                                                cartViewModel.Payment.NumberCart, cartViewModel.Payment.ExpirationCart, cartViewModel.Payment.CvvCart);
 
             await _mediatrHandler.SendCommand(command);
 
@@ -131,7 +135,7 @@ namespace KlingerStore.WebApp.Mvc.Controllers
                 return RedirectToAction("Index", "Order");
             }
 
-            return View("PurchaseSummary", await _orderQuerys.FindCartClient(ClientId));
+            return View("PurchaseSummary", await _orderQuerys.FindCartClient(await _user.ClientId()));
         }
 
     }

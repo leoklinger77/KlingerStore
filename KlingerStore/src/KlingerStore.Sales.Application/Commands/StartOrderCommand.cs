@@ -59,6 +59,10 @@ namespace KlingerStore.Sales.Application.Commands
             RuleFor(x => x.CvvCart)
                 .NotEmpty()
                 .WithMessage("O CVV não foi preenchido corretamente");
+            
+            RuleFor(x => x.CvvCart)
+                .Length(3,4)
+                .WithMessage("O CVV não foi preenchido corretamente");
         }
     }
 }

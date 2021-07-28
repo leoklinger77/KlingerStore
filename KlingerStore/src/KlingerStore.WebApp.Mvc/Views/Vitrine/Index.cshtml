@@ -1,0 +1,96 @@
+﻿@model IEnumerable<KlingerStore.Catalog.Application.ViewModels.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Vitrine";
+}
+<section class="section-intro padding-y-sm">
+    <div class="container">
+
+        <div class="intro-banner-wrap">
+            <img src="~/Imagens/Home.jpg" class="img-fluid rounded">
+        </div>
+
+    </div> 
+</section>
+
+<header class="section-heading">
+    <h3 class="section-title">Produtos Mais Vendidos</h3>
+</header>
+
+<section>
+    <div class="row">
+        @foreach (var item in Model.OrderBy(p => p.CategoryId))
+        {
+            <div class="col-md-3">
+                <div href="#" class="card card-product-grid">
+                    <a asp-controller="Vitrine" asp-action="ProductDetails" asp-route-id="@item.Id" class="img-wrap"> <img src="~/Imagens/@item.Image"> </a>
+                    <figcaption class="info-wrap">
+                        <a href="#" class="title">@item.Name</a>
+
+                        <div class="rating-wrap">
+                            <ul class="rating-stars">
+                                <li style="width:80%" class="stars-active">
+                                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                </li>
+                                <li>
+                                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                </li>
+                            </ul>
+                            <span class="label-rating text-muted"> 34 reviws</span>
+                        </div>
+                        <div class="price mt-1">@item.Value.ToString("C")</div> 
+                    </figcaption>
+                </div>
+            </div>
+        }        
+    </div> 
+</section>
+
+
+
+<section class="section-name bg padding-y-sm">
+    <div class="container">
+        <header class="section-heading">
+            <h3 class="section-title">Outras Marcas</h3>
+        </header>
+
+        <div class="row">
+            <div class="col-md-2 col-6">
+                <figure class="box item-logo">
+                    <a href="#"><img src="~/Imagens/microsoft.png"></a>
+                    <figcaption class="border-top pt-2">36 Products</figcaption>
+                </figure> 
+            </div>
+            <div class="col-md-2  col-6">
+                <figure class="box item-logo">
+                    <a href="#"><img src="~/Imagens/dell.png"></a>
+                    <figcaption class="border-top pt-2">980 Products</figcaption>
+                </figure> 
+            </div> 
+            <div class="col-md-2  col-6">
+                <figure class="box item-logo">
+                    <a href="#"><img src="~/Imagens/amazon.png"></a>
+                    <figcaption class="border-top pt-2">25 Products</figcaption>
+                </figure> 
+            </div> 
+            <div class="col-md-2  col-6">
+                <figure class="box item-logo">
+                    <a href="#"><img src="~/Imagens/oracle.png"></a>
+                    <figcaption class="border-top pt-2">72 Products</figcaption>
+                </figure> 
+            </div>
+            <div class="col-md-2  col-6">
+                <figure class="box item-logo">
+                    <a href="#"><img src="~/Imagens/nasa.png"></a>
+                    <figcaption class="border-top pt-2">41 Products</figcaption>
+                </figure> 
+            </div> 
+            <div class="col-md-2  col-6">
+                <figure class="box item-logo">
+                    <a href="#"><img src="~/Imagens/dell.png"></a>
+                    <figcaption class="border-top pt-2">12 Products</figcaption>
+                </figure> 
+            </div>
+        </div> 
+    </div>
+</section>

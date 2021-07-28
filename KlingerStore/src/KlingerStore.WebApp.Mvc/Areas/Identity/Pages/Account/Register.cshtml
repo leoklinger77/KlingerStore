@@ -3,37 +3,46 @@
 @{
     ViewData["Title"] = "Registrar-se";
 }
+<br />
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Criar uma nova conta.</h4>
-            <hr />
+<div >
+    <div class="col-lg-12">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Registrar-se</h4>
             <div asp-validation-summary="ModelOnly  " class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use outro serviço para se registrar.</h4>
-            <hr />
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                        </div>
+                        <input asp-for="Input.Email" class="form-control" placeholder="Email" type="text">
+                    </div>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                        </div>
+                        <input asp-for="Input.Password" class="form-control" placeholder="Senha" type="password">
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                        </div>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirmar Senha" type="password">
+                    </div>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Register  </button>
+                </div>
+            </form>
+            <p class="text-center my-4">Ou acesse via</p>
             @{
                 if ((Model.ExternalLogins?.Count ?? 0) == 0)
                 {
@@ -58,10 +67,17 @@
                     </form>
                 }
             }
-        </section>
+            <div class="text-center mb-3">
+                <a href="#" class="btn btn-icon rounded-circle btn-facebook"> <i class="fab fa-facebook-f"></i> </a>
+                <a href="#" class="btn btn-icon rounded-circle btn-google"> <i class="fab fa-google"></i> </a>
+            </div>
+
+        </div>
     </div>
 </div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+

@@ -35,7 +35,7 @@ namespace KlingerStore.Sales.Application.Commands
             if (!ValidateCommand(message)) return false;
 
             var order = await _orderRepository.GetDraftOrderPerCustomer(message.ClientId);
-            var orderItem = new OrderItem(message.ProductId, message.Name, message.Quantity, message.UnitValue);
+            var orderItem = new OrderItem(message.ProductId, message.Name, message.Quantity, message.UnitValue, message.Image);
 
             if (order is null)
             {

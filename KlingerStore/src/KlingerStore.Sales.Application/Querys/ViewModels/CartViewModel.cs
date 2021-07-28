@@ -6,7 +6,7 @@ namespace KlingerStore.Sales.Application.Querys.ViewModels
     public class CartViewModel
     {
         public Guid OrderId { get; set; }
-        public Guid ClientId { get; set; }
+        public Guid ClientId { get; set; }        
         public decimal SubTotal { get; set; }
         public decimal TotalValue { get; set; }
         public decimal ValorDiscount { get; set; }

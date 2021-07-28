@@ -44,7 +44,8 @@ namespace KlingerStore.Sales.Application.Querys
                     ProductName = item.ProductName,
                     Quantity = item.Quantity,
                     ValorUnit = item.UnitValue,
-                    TotalValue = item.UnitValue * item.Quantity
+                    TotalValue = item.UnitValue * item.Quantity,
+                    Image = item.Image
                 });
             }
 

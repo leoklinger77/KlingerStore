@@ -15,14 +15,16 @@ namespace KlingerStore.Sales.Application.Commands
         public string Name { get; private set; }
         public int Quantity { get; private set; }
         public decimal UnitValue { get; private set; }
+        public string Image { get; private set; }
 
-        public AddOrderItemCommand(Guid clientId, Guid productId, string name, int quantity, decimal unitValue)
+        public AddOrderItemCommand(Guid clientId, Guid productId, string name, int quantity, decimal unitValue, string image)
         {
             ClientId = clientId;
             ProductId = productId;
             Name = name;
             Quantity = quantity;
             UnitValue = unitValue;
+            Image = image;
         }
 
         public override bool IsValid()

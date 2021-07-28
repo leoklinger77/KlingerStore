@@ -48,18 +48,10 @@ namespace KlingerStore.Sales.Data.Repository
 
         public async Task<Order> GetDraftOrderPerCustomer(Guid id)
         {
-            var pedido = await _context.Order.FirstOrDefaultAsync(p => p.ClientId == id && p.OrderStatus == OrderStatus.Rascunho);
+            var pedido = await _context.Order.AsNoTracking().Include(x=>x.OrderItems).Include(x=>x.Voucher).FirstOrDefaultAsync(p => p.ClientId == id && p.OrderStatus == OrderStatus.Rascunho);
             if (pedido == null) return null;
-
-            await _context.Entry(pedido)
-                .Collection(i => i.OrderItems).LoadAsync();
-
-            if (pedido.VoucherId != null)
-            {
-                await _context.Entry(pedido)
-                    .Reference(i => i.Voucher).LoadAsync();
-            }
-
+            pedido.CalculateValueOrder();
+            pedido.CalulateValueTotalDiscount();
             return pedido;
         }
 

@@ -1,4 +1,6 @@
-﻿using KlingerStore.WebApp.Mvc.Data;
+﻿using KlingerStore.Core.Domain.Interfaces;
+using KlingerStore.WebApp.Mvc.Data;
+using KlingerStore.WebApp.Mvc.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +13,7 @@ namespace KlingerStore.WebApp.Mvc.Configuration
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddScoped<IUser, AspNetUser>();
             return services;
         }
     }
