@@ -1,4 +1,5 @@
 ﻿using KlingerStore.Catalog.Data.Context;
+using KlingerStore.Payment.Data.Context;
 using KlingerStore.Sales.Data.Context;
 using KlingerStore.WebApp.Mvc.Data;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,10 @@ namespace KlingerStore.WebApp.Mvc.Configuration
 
             //Sales Context
             services.AddDbContext<SalesContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+            //Payment Context
+            services.AddDbContext<PaymentContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();            

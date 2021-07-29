@@ -8,6 +8,12 @@ using KlingerStore.Catalog.Domain.Interfaces.Services;
 using KlingerStore.Catalog.Domain.Service;
 using KlingerStore.Core.Domain.Communication.Mediatr;
 using KlingerStore.Core.Domain.Message.CommonMessages.Notification;
+using KlingerStore.Payment.AntCorruption.Interfaces;
+using KlingerStore.Payment.AntCorruption.Service;
+using KlingerStore.Payment.Data.Context;
+using KlingerStore.Payment.Data.Repository;
+using KlingerStore.Payment.Data.Service;
+using KlingerStore.Payment.Domain.Interfaces;
 using KlingerStore.Sales.Application.Commands;
 using KlingerStore.Sales.Application.Events;
 using KlingerStore.Sales.Application.Querys;
@@ -24,15 +30,15 @@ namespace KlingerStore.WebApp.Mvc.Configuration
         public static IServiceCollection DependencyResolve(this IServiceCollection services)
         {
             //Mediator
-            
+
             services.AddScoped<IMediatrHandler, MediatrHandler>();
 
             //AutoMapper
-            services.AddAutoMapper(typeof(DomainToViewModelMappingProfile), typeof(ViewModelToDomainMappingProfile));            
+            services.AddAutoMapper(typeof(DomainToViewModelMappingProfile), typeof(ViewModelToDomainMappingProfile));
 
             //Notification
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
-            
+
 
             //Catalog
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -55,7 +61,18 @@ namespace KlingerStore.WebApp.Mvc.Configuration
             services.AddScoped<INotificationHandler<Sales.Application.Events.OrderDraftOrderInitEvent>, OrderEventHandler>();
             services.AddScoped<INotificationHandler<OrderItemAddEvent>, OrderEventHandler>();
             services.AddScoped<INotificationHandler<OrderItemUpdateEvent>, OrderEventHandler>();
-            
+
+
+            //Payment
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IPaymentCartCreditFacade, PaymentCartCreditFacade>();
+            services.AddScoped<IPayPalGateway, PayPalGateway>();
+            services.AddScoped<IConfigurationManager, ConfigurationManager>();
+            services.AddScoped<PaymentContext>();
+
+
+
 
             return services;
         }

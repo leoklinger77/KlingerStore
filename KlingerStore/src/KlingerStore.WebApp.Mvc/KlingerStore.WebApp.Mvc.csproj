@@ -25,6 +25,9 @@
     <ProjectReference Include="..\KlingerStore.Catalog.Application\KlingerStore.Catalog.Application.csproj" />
     <ProjectReference Include="..\KlingerStore.Catalog.Domain\KlingerStore.Catalog.Domain.csproj" />
     <ProjectReference Include="..\KlingerStore.Core.Domain\KlingerStore.Core.Domain.csproj" />
+    <ProjectReference Include="..\KlingerStore.Payment.AntCorruption\KlingerStore.Payment.AntCorruption.csproj" />
+    <ProjectReference Include="..\KlingerStore.Payment.Data\KlingerStore.Payment.Data.csproj" />
+    <ProjectReference Include="..\KlingerStore.Payment.Domain\KlingerStore.Payment.Domain.csproj" />
     <ProjectReference Include="..\KlingerStore.Sales.Application\KlingerStore.Sales.Application.csproj" />
     <ProjectReference Include="..\KlingerStore.Sales.Data\KlingerStore.Sales.Data.csproj" />
     <ProjectReference Include="..\KlingerStore.Sales.Domain\KlingerStore.Sales.Domain.csproj" />

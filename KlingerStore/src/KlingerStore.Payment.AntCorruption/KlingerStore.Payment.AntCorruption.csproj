@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KlingerStore.Payment.Data\KlingerStore.Payment.Data.csproj" />
+    <ProjectReference Include="..\KlingerStore.Payment.Domain\KlingerStore.Payment.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
