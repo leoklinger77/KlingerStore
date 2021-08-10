@@ -3,10 +3,10 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<br />
 <div class="container">
 
-    <vc:summary />
+    <vc:summary></vc:summary>
 
     <div class="row">
 
@@ -65,21 +65,25 @@
                             <div class="col-md-6 mb-3">
                                 <label>Nome no Cartão</label>
                                 <input asp-for="Payment.CardName" type="text" class="form-control" placeholder="" required="">
-                                <small class="text-muted">Nome completo como consta no cartão</small>
+                                <small class="text-muted">Nome completo como consta no cartão</small><br />
+                                <span class="text-danger" asp-validation-for="Payment.CardName"></span>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Número do Cartão</label>
                                 <input asp-for="Payment.NumberCart" type="text" class="form-control" placeholder="" required="">
+                                <span class="text-danger" asp-validation-for="Payment.NumberCart"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3 mb-3">
                                 <label>Data Expiração</label>
                                 <input asp-for="Payment.ExpirationCart" type="text" class="form-control" placeholder="" required="">
+                                <span class="text-danger" asp-validation-for="Payment.ExpirationCart"></span>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label>CVV</label>
                                 <input asp-for="Payment.CvvCart" type="text" class="form-control" placeholder="" required="">
+                                <span class="text-danger" asp-validation-for="Payment.CvvCart"></span>
                             </div>
                         </div>
                         <hr class="mb-4">
@@ -95,3 +99,7 @@
 
     </div>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}  
+
+}

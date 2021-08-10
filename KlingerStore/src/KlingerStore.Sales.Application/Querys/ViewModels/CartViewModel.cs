@@ -12,7 +12,7 @@ namespace KlingerStore.Sales.Application.Querys.ViewModels
         public decimal ValorDiscount { get; set; }
         public string VoucherCode { get; set; }
 
-        public IList<CartItemViewModel> Items { get; set; } = new List<CartItemViewModel>();
+        public List<CartItemViewModel> Items { get; set; } = new List<CartItemViewModel>();
         public CartPaymentViewModel Payment { get; set; }
     }
 }

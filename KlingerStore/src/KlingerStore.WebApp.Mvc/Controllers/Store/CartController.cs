@@ -125,14 +125,14 @@ namespace KlingerStore.WebApp.Mvc.Controllers
             if(!ModelState.IsValid) return View("PurchaseSummary", await _orderQuerys.FindCartClient(await _user.ClientId()));
             var cart = await _orderQuerys.FindCartClient(await _user.ClientId());
 
-            var command = new StartOrderCommand(cart.OrderId, ClientId, cart.TotalValue, cartViewModel.Payment.CardName,
+            var command = new StartOrderCommand(cart.OrderId, await _user.ClientId(), cart.TotalValue, cartViewModel.Payment.CardName,
                                                 cartViewModel.Payment.NumberCart, cartViewModel.Payment.ExpirationCart, cartViewModel.Payment.CvvCart);
 
             await _mediatrHandler.SendCommand(command);
 
             if (OperationValidit())
             {
-                return RedirectToAction("Index", "Order");
+                return RedirectToAction("Index");
             }
 
             return View("PurchaseSummary", await _orderQuerys.FindCartClient(await _user.ClientId()));

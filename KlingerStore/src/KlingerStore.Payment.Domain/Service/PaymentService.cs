@@ -26,7 +26,7 @@ namespace KlingerStore.Payment.Data.Service
         {
             var order = new Order
             {
-                OrderId = paymententOrder.OrderId,
+                Id = paymententOrder.OrderId,
                 Value = paymententOrder.Total
             };
 
@@ -44,7 +44,7 @@ namespace KlingerStore.Payment.Data.Service
 
             if (transacao.StatusTransaction == StatusTransaction.Pago)
             {
-                payment.AddEvent(new PaymentSuccessEvent(order.OrderId, paymententOrder.ClientId, transacao.PaymentId, transacao.OrderId, order.Value));
+                payment.AddEvent(new PaymentSuccessEvent(paymententOrder.OrderId, paymententOrder.ClientId, transacao.PaymentId, transacao.OrderId, paymententOrder.Total));
 
                 await _paymentRepositry.Insert(payment);
                 await _paymentRepositry.InsertTransaction(transacao);
@@ -54,7 +54,7 @@ namespace KlingerStore.Payment.Data.Service
             }
 
             await _mediatrHandler.PublishNotification(new DomainNotification("pagamento", "A operadora recusou o pagamento"));
-            await _mediatrHandler.PublishEvent(new PaymentRefusedEvent(order.OrderId, paymententOrder.ClientId, transacao.PaymentId, transacao.OrderId, order.Value));
+            await _mediatrHandler.PublishEvent(new PaymentRefusedEvent(paymententOrder.OrderId, paymententOrder.ClientId, transacao.PaymentId, transacao.OrderId, paymententOrder.Total));
 
             return transacao;
         }

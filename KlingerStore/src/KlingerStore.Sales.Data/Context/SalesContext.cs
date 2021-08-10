@@ -5,6 +5,7 @@ using KlingerStore.Sales.Domain.Class;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KlingerStore.Sales.Data.Context
@@ -54,8 +55,12 @@ namespace KlingerStore.Sales.Data.Context
             }
 
             var success = await base.SaveChangesAsync() > 0;
-            if(success) await _mediatrHandler.SendEvent(this);
-            
+            if (success)
+            {
+                await _mediatrHandler.SendEvent(this);
+
+            }
+
             return success;
         }
     }

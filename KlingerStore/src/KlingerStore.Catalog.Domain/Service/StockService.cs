@@ -27,7 +27,7 @@ namespace KlingerStore.Catalog.Domain.Service
         {
             foreach (var item in listProductOrder.Items)
             {
-                if (await DebitItemStock(item.Id, item.Quantity)) return false;
+                if (!await DebitItemStock(item.Id, item.Quantity)) return false;
             }
             return await _productRepository.UnitOfWork.Commit();
         }        

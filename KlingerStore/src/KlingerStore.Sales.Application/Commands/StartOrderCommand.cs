@@ -45,11 +45,11 @@ namespace KlingerStore.Sales.Application.Commands
                 .WithMessage("Id do produto inválido");
 
             RuleFor(x => x.NameCart)
-                .CreditCard()
+                .NotEmpty()
                 .WithMessage("O nome no cartão não foi informado");
 
             RuleFor(x => x.NumberCart)
-                .NotEmpty()
+                .CreditCard()
                 .WithMessage("O número do cartão não foi informado");
 
             RuleFor(x => x.ExpiracaoCart)

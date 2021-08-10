@@ -19,7 +19,10 @@ namespace KlingerStore.Sales.Application.Commands
                                        IRequestHandler<UpdateOrderItemCommand, bool>,
                                        IRequestHandler<RemoverOrderItemCommand, bool>,
                                        IRequestHandler<ApplyVoucherOrderItemCommand, bool>,
-                                       IRequestHandler<StartOrderCommand, bool>
+                                       IRequestHandler<StartOrderCommand, bool>,
+                                       IRequestHandler<FinishOrderCommand, bool>,
+                                       IRequestHandler<CanceledOrderAndReverseStockCommand, bool>,
+                                       IRequestHandler<CanceledProcessOrderCommand,bool>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMediatrHandler _mediatrHandler;
@@ -161,11 +164,19 @@ namespace KlingerStore.Sales.Application.Commands
 
             return await _orderRepository.UnitOfWork.Commit();
         }
+
         public async Task<bool> Handle(StartOrderCommand message, CancellationToken cancellationToken)
         {
             if (!ValidateCommand(message)) return false;
 
             var order = await _orderRepository.GetDraftOrderPerCustomer(message.ClientId);
+
+            if (order is null)
+            {
+                await _mediatrHandler.PublishNotification(new DomainNotification("Pedido", "Pedido não encontrado!"));
+                return false;
+            }
+
             order.InityOrder();
 
             var itensList = new List<Item>();
@@ -175,6 +186,53 @@ namespace KlingerStore.Sales.Application.Commands
             order.AddEvent(new StartOrderEvent(order.Id, order.ClientId, order.TotalValue, listProductOrder, message.NameCart, message.NumberCart, message.ExpiracaoCart, message.CvvCart));
 
             _orderRepository.Update(order);
+            return await _orderRepository.UnitOfWork.Commit();
+        }
+        public async Task<bool> Handle(FinishOrderCommand message, CancellationToken cancellationToken)
+        {
+            var order = await _orderRepository.FindById(message.OrderId);
+
+            if (order is null)
+            {
+                await _mediatrHandler.PublishNotification(new DomainNotification("Order", "Pedido não encontrado! "));
+                return false;
+            }
+
+            order.FinishOrder();            
+            order.AddEvent(new FinishOrderEvent(message.OrderId));
+            
+            return await _orderRepository.UnitOfWork.Commit();
+        }
+        public async Task<bool> Handle(CanceledOrderAndReverseStockCommand message, CancellationToken cancellationToken)
+        {
+            var order = await _orderRepository.FindById(message.OrderId);
+
+            if (order is null)
+            {
+                await _mediatrHandler.PublishNotification(new DomainNotification("Order", "Pedido não encontrado! "));
+                return false;
+            }
+
+            var itensList = new List<Item>();
+            order.OrderItems.ForEach(x => itensList.Add(new Item(x.ProductId, x.Quantity)));
+            var listProdutOrder = new ListProductOrder(order.Id, itensList);
+
+            order.AddEvent(new OrderProcessCanceledEvent(order.Id, order.ClientId, listProdutOrder));
+            order.MakeDraft();
+            
+            return await _orderRepository.UnitOfWork.Commit();
+        }
+        public async Task<bool> Handle(CanceledProcessOrderCommand message, CancellationToken cancellationToken)
+        {
+            var order = await _orderRepository.FindById(message.OrderId);
+
+            if (order is null)
+            {
+                await _mediatrHandler.PublishNotification(new DomainNotification("Order", "Pedido não encontrado! "));
+                return false;
+            }
+            order.MakeDraft();
+            
             return await _orderRepository.UnitOfWork.Commit();
         }
 

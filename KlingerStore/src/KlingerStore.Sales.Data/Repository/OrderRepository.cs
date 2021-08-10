@@ -18,6 +18,7 @@ namespace KlingerStore.Sales.Data.Repository
         public OrderRepository(SalesContext context)
         {
             _context = context;
+            //_context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
         public IUnitOfWork UnitOfWork => _context;
 
@@ -48,7 +49,11 @@ namespace KlingerStore.Sales.Data.Repository
 
         public async Task<Order> GetDraftOrderPerCustomer(Guid id)
         {
-            var pedido = await _context.Order.AsNoTracking().Include(x=>x.OrderItems).Include(x=>x.Voucher).FirstOrDefaultAsync(p => p.ClientId == id && p.OrderStatus == OrderStatus.Rascunho);
+            var pedido = await _context.Order
+                .Include(x => x.OrderItems)
+                .Include(x => x.Voucher)
+                //.AsNoTracking()
+                .FirstOrDefaultAsync(p => p.ClientId == id && p.OrderStatus == OrderStatus.Rascunho);
             if (pedido == null) return null;
             pedido.CalculateValueOrder();
             pedido.CalulateValueTotalDiscount();
@@ -72,7 +77,16 @@ namespace KlingerStore.Sales.Data.Repository
 
         public void Update(Order order)
         {
-            _context.Order.Update(order);
+            try
+            {
+                
+                _context.Order.Update(order);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            
         }
 
         public void Update(OrderItem orderItem)

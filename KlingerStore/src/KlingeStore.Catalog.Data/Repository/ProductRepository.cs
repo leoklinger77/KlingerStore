@@ -19,12 +19,7 @@ namespace KlingerStore.Catalog.Data.Repository
             _context = context;
         }
 
-        public IUnitOfWork UnitOfWork => _context;
-
-        public void Dispose()
-        {
-            _context?.DisposeAsync();
-        }
+        public IUnitOfWork UnitOfWork => _context;       
 
         public async Task<IEnumerable<Product>> FindAll()
         {
@@ -33,7 +28,7 @@ namespace KlingerStore.Catalog.Data.Repository
 
         public async Task<IEnumerable<Product>> FindByCategory(int code)
         {
-            return await _context.Product.Where(x=>x.Category.Code == code).AsNoTracking().ToListAsync();
+            return await _context.Product.AsNoTracking().Where(x=>x.Category.Code == code).ToListAsync();
         }
 
         public async Task<Product> FindById(Guid id)
@@ -64,6 +59,10 @@ namespace KlingerStore.Catalog.Data.Repository
         public async Task Update(Category category)
         {
             _context.Category.Update(category);            
+        }
+        public void Dispose()
+        {
+            _context?.DisposeAsync();
         }
     }
 }

@@ -2,10 +2,6 @@
 using KlingerStore.Core.Domain.Message.CommonMessages.IntefrationEvents;
 using KlingerStore.Payment.Domain.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

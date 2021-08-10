@@ -16,6 +16,7 @@ namespace KlingerStore.Core.Domain.DomainObjects
             Id = Guid.NewGuid();
             _notifier = new List<Event>();
         }
+        public IReadOnlyCollection<Event> GetEvents() => _notifier;
         public void AddEvent(Event _event)
         {
             _notifier.Add(_event);

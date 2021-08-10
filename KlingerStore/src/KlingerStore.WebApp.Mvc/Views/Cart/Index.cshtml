@@ -5,11 +5,11 @@
 <br />
 <vc:summary></vc:summary>
 <div class="row">
-    
-    <aside class="col-lg-9">
-        <div class="card">
-            @if (Model?.Items != null)
-            {
+    @if (Model?.Items != null && Model?.Items.Count != 0)
+    {
+        <aside class="col-lg-9">
+            <div class="card">
+
                 <table class="table table-borderless table-shopping-cart">
                     <thead class="text-muted">
                         <tr class="small text-uppercase">
@@ -44,21 +44,21 @@
                                                     <span class="fas fa-sync"></span>
                                                 </button>
                                             </div>
-                                        </form>                                        
+                                        </form>
                                     </td>
                                     <td>
                                         <div class="price-wrap">
                                             <var class="price">@item.ValorUnit.ToString("C")</var>
                                             <small class="text-muted"> @item.TotalValue.ToString("C") </small>
                                         </div>
-                                    </td>                                    
+                                    </td>
                                     <td class="text-right">
                                         <form method="post" asp-controller="Cart" asp-action="RemoverItem">
                                             <input type="hidden" id="Id" name="Id" value="@item.ProductId" />
                                             <button type="submit" class="btn btn-danger">
                                                 <span class="fas fa-trash-alt"></span> Remover
                                             </button>
-                                        </form>                                        
+                                        </form>
                                     </td>
                                 </tr>
                             }
@@ -70,57 +70,59 @@
                 <div class="card-body border-top">
                     <p class="icontext"><i class="icon text-success fa fa-truck"></i> Entrega gratuita em 1-2 semanas</p>
                 </div>
-            }
-            else
-            {
-                <div><p>Carrinho Vazio</p></div>
-            }
-        </div>
 
-    </aside> 
-    <aside class="col-lg-3">
-
-        <div class="card mb-3">
-            <div class="card-body">
-                
-                <form method="post" asp-controller="Cart" asp-action="ApplyVoucher">
-                    <div class="form-group">
-                        <label>Cupom de Desconto ?</label>
-                        <div class="input-group">
-                            <input type="text" name="voucherCode" id="voucherCode" value="@Model.VoucherCode" class="form-control" name="" placeholder="Voucher">
-                            <span class="input-group-append">
-                                <button type="submit" class="btn btn-primary">Aplicar</button>
-                            </span>
-                        </div>
-                    </div>
-                </form>
             </div>
-        </div> 
 
-        <div class="card">
-            <div class="card-body">
-                <dl class="dlist-align">
-                    <dt>Sub Total:</dt>
-                    <dd class="text-right">@Model.SubTotal.ToString("C")</dd>
-                </dl>
-                <dl class="dlist-align">
-                    <dt>Desconto:</dt>
-                    <dd class="text-right text-danger">- @Model.ValorDiscount.ToString("C")</dd>
-                </dl>
-                <dl class="dlist-align">
-                    <dt>Total:</dt>
-                    <dd class="text-right text-dark b"><strong>@Model.TotalValue.ToString("C")</strong></dd>
-                </dl>
-                <hr>
-                <p class="text-center mb-3">
-                    <img src="~/Imagens/cartoes.png" height="26">
-                </p>
-                <a asp-controller="Cart" asp-action="PurchaseSummary" class="btn btn-primary btn-block"> Finalizar Compra </a>
-                <a asp-controller="Vitrini" asp-action="Index" class="btn btn-light btn-block">Voltar as Compras</a>
-            </div> 
-        </div>
+        </aside>
+        <aside class="col-lg-3">
 
-    </aside>
+            <div class="card mb-3">
+                <div class="card-body">
+
+                    <form method="post" asp-controller="Cart" asp-action="ApplyVoucher">
+                        <div class="form-group">
+                            <label>Cupom de Desconto ?</label>
+                            <div class="input-group">
+                                @*<input type="text" name="voucherCode" id="voucherCode" value="@Model.VoucherCode" class="form-control" name="" placeholder="Voucher">*@
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">Aplicar</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <dl class="dlist-align">
+                        <dt>Sub Total:</dt>
+                        <dd class="text-right">@Model.SubTotal.ToString("C")</dd>
+                    </dl>
+                    <dl class="dlist-align">
+                        <dt>Desconto:</dt>
+                        <dd class="text-right text-danger">- @Model.ValorDiscount.ToString("C")</dd>
+                    </dl>
+                    <dl class="dlist-align">
+                        <dt>Total:</dt>
+                        <dd class="text-right text-dark b"><strong>@Model.TotalValue.ToString("C")</strong></dd>
+                    </dl>
+                    <hr>
+                    <p class="text-center mb-3">
+                        <img src="~/Imagens/cartoes.png" height="26">
+                    </p>
+                    <a asp-controller="Cart" asp-action="PurchaseSummary" class="btn btn-primary btn-block"> Finalizar Compra </a>
+                    <a asp-controller="Vitrini" asp-action="Index" class="btn btn-light btn-block">Voltar as Compras</a>
+                </div>
+            </div>
+
+        </aside>
+    }
+    else
+    {
+        <div><p>Carrinho Vazio</p></div>
+    }
+
 
 
 </div>

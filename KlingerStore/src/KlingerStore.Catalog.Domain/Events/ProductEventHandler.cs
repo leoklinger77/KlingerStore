@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace KlingerStore.Catalog.Domain.Events
 {
     public class ProductEventHandler : INotificationHandler<OrderDraftOrderInitEvent>,
-                                       INotificationHandler<StartOrderEvent>
+                                       INotificationHandler<StartOrderEvent>,
+                                       INotificationHandler<OrderProcessCanceledEvent>
     {
         private readonly IProductRepository _productRepository;
         private readonly IStockService _stockService;
@@ -26,7 +27,6 @@ namespace KlingerStore.Catalog.Domain.Events
         {
             return Task.CompletedTask;
         }
-
         public async Task Handle(StartOrderEvent message, CancellationToken cancellationToken)
         {
             var result = await _stockService.DebitStock(message.ProductOrder);
@@ -39,6 +39,10 @@ namespace KlingerStore.Catalog.Domain.Events
             {
                 await _mediatrHandler.PublishEvent(new OrderStockRejectedEvent(message.OrderId, message.ClientId));
             }
+        }
+        public async Task Handle(OrderProcessCanceledEvent message, CancellationToken cancellationToken)
+        {
+            await _stockService.ReplenishStock(message.ListProduct);
         }
     }
 }

@@ -24,11 +24,11 @@ namespace KlingerStore.Payment.AntCorruption.Service
             var serviceKey = _payPalGateway.GetPayPalServiceKey(apiKey, encriptionKey);
             var cardHashKey = _payPalGateway.GetCardHashKey(serviceKey, payment.NumberCart);
 
-            var paymentResult = _payPalGateway.CommitTransaction(cardHashKey, order.OrderId.ToString(), payment.Value);
+            var paymentResult = _payPalGateway.CommitTransaction(cardHashKey, order.Id.ToString(), payment.Value);
 
             var transaction = new Transaction
             {
-                OrderId = order.OrderId,
+                OrderId = order.Id,
                 TotalValue = order.Value,
                 PaymentId = payment.Id
             };

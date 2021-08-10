@@ -1,9 +1,11 @@
 ﻿using KlingerStore.Core.Domain.Communication.Mediatr;
 using KlingerStore.Core.Domain.Data.Interfaces;
 using KlingerStore.Core.Domain.Message;
+using KlingerStore.Payment.Domain.Class;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KlingerStore.Payment.Data.Context
@@ -17,7 +19,7 @@ namespace KlingerStore.Payment.Data.Context
         }
 
         public DbSet<Domain.Class.Payment> Payment { get; set; }
-        public DbSet<Domain.Class.Transaction> Transaction { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,11 +49,14 @@ namespace KlingerStore.Payment.Data.Context
                 {
                     entry.Property("InsertDate").IsModified = false;
                 }
-            }
-            var success = await base.SaveChangesAsync() > 0;
-            if (success) await _mediatrHandler.SendEvent(this);
+            }            
 
+            var success =  await base.SaveChangesAsync() > 0;
+            if (success)
+            {
+                await _mediatrHandler.SendEvent(this);
+            }
             return success;
-        }
+        }       
     }
 }
